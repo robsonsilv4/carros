@@ -1,3 +1,5 @@
+import 'package:carros/widgets/app_button.dart';
+import 'package:carros/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.all(16),
         child: ListView(
           children: <Widget>[
-            _text(
+            AppText(
               'Login',
               'Digite o seu login',
               controller: loginController,
@@ -45,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
               validator: _validateLogin,
             ),
             SizedBox(height: 10),
-            _text(
+            AppText(
               'Senha',
               'Digite a sua senha',
               password: true,
@@ -56,65 +58,12 @@ class _LoginPageState extends State<LoginPage> {
               validator: _validateSenha,
             ),
             SizedBox(height: 20),
-            _button("Entrar", _onClickLogin)
+            AppButton(
+              "Entrar",
+              onPressed: _onClickLogin,
+            )
           ],
         ),
-      ),
-    );
-  }
-
-  TextFormField _text(
-    String label,
-    String hint, {
-    TextEditingController controller,
-    bool password = false,
-    TextInputType keyboardType,
-    TextInputAction textInputAction,
-    FocusNode focusNode,
-    FocusNode nextFocus,
-    FormFieldValidator<String> validator,
-  }) {
-    return TextFormField(
-      style: TextStyle(
-        fontSize: 20,
-        color: Colors.red,
-      ),
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        labelStyle: TextStyle(
-          fontSize: 20,
-          color: Colors.grey,
-        ),
-        hintStyle: TextStyle(fontSize: 16),
-      ),
-      obscureText: password,
-      controller: controller,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      focusNode: focusNode,
-      onFieldSubmitted: (String text) {
-        if (nextFocus != null) {
-          FocusScope.of(context).requestFocus(nextFocus);
-        }
-      },
-      validator: validator,
-    );
-  }
-
-  Container _button(String text, Function onPressed) {
-    return Container(
-      height: 46,
-      child: RaisedButton(
-        color: Colors.red,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.white,
-          ),
-        ),
-        onPressed: onPressed,
       ),
     );
   }
