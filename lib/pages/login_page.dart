@@ -118,7 +118,11 @@ class _LoginPageState extends State<LoginPage> {
     if (response.ok) {
       Usuario user = response.result;
       print('$user');
-      push(context, HomePage());
+      push(
+        context,
+        HomePage(),
+        replace: true,
+      );
     } else {
       alert(context, response.msg);
     }

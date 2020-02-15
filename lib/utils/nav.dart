@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-Future push(context, page) {
+Future push(context, page, {bool replace = false}) {
+  if (replace) {
+    return Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => page,
+      ),
+    );
+  }
+
   return Navigator.push(
     context,
     MaterialPageRoute(
