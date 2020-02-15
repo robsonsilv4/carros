@@ -1,3 +1,4 @@
+import 'package:carros/pages/login_api.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/nav.dart';
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void _onClickLogin() {
+  void _onClickLogin() async {
     // bool formOk = formKey.currentState.validate();
 
     if (!formKey.currentState.validate()) {
@@ -102,7 +103,13 @@ class _LoginPageState extends State<LoginPage> {
     print('Login: $login');
     print('Senha: $senha');
 
-    push(context, HomePage());
+    bool ok = await LoginApi.login(login, senha);
+
+    if (ok) {
+      push(context, HomePage());
+    } else {
+      print('Login ou senha incorretos');
+    }
   }
 
   @override
