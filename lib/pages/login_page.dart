@@ -22,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final focusSenha = FocusNode();
 
+  bool _showProgress = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,8 +69,9 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 20),
             AppButton(
               "Entrar",
+              showProgress: _showProgress,
               onPressed: _onClickLogin,
-            )
+            ),
           ],
         ),
       ),
@@ -106,6 +109,10 @@ class _LoginPageState extends State<LoginPage> {
     print('Login: $login');
     print('Senha: $senha');
 
+    setState(() {
+      _showProgress = true;
+    });
+
     ApiResponse response = await LoginApi.login(login, senha);
 
     if (response.ok) {
@@ -115,6 +122,10 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       alert(context, response.msg);
     }
+
+    setState(() {
+      _showProgress = false;
+    });
   }
 
   @override
