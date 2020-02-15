@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../utils/alert.dart';
 import '../utils/nav.dart';
 import '../widgets/app_button.dart';
 import '../widgets/app_text.dart';
+import 'api_response.dart';
 import 'home_page.dart';
 import 'login_api.dart';
 import 'usuario.dart';
@@ -104,13 +106,14 @@ class _LoginPageState extends State<LoginPage> {
     print('Login: $login');
     print('Senha: $senha');
 
-    Usuario user = await LoginApi.login(login, senha);
+    ApiResponse response = await LoginApi.login(login, senha);
 
-    if (user != null) {
+    if (response.ok) {
+      Usuario user = response.result;
       print('$user');
       push(context, HomePage());
     } else {
-      print('Login ou senha incorretos');
+      alert(context, response.msg);
     }
   }
 
