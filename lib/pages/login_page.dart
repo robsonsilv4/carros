@@ -1,6 +1,9 @@
-import 'package:carros/widgets/app_button.dart';
-import 'package:carros/widgets/app_text.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/nav.dart';
+import '../widgets/app_button.dart';
+import '../widgets/app_text.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -98,6 +101,8 @@ class _LoginPageState extends State<LoginPage> {
 
     print('Login: $login');
     print('Senha: $senha');
+
+    push(context, HomePage());
   }
 
   @override
