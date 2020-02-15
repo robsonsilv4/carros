@@ -1,3 +1,4 @@
+import 'package:carros/widgets/drawer_list.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,11 +8,16 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Carros'),
       ),
-      body: Center(
-        child: Text(
-          'Robson',
-          style: TextStyle(fontSize: 22),
-        ),
+      body: _body(),
+      drawer: DrawerList(),
+    );
+  }
+
+  Center _body() {
+    return Center(
+      child: Text(
+        'Robson',
+        style: TextStyle(fontSize: 22),
       ),
     );
   }
