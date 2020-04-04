@@ -17,8 +17,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
 
-  final loginController = TextEditingController();
-  final senhaController = TextEditingController();
+  final _loginController = TextEditingController();
+  final _senhaController = TextEditingController();
 
   final focusSenha = FocusNode();
 
@@ -27,6 +27,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+
+    Future<Usuario> future = Usuario.get();
+    future.then((Usuario user) {
+      if (user != null) {
+        setState(() {
+          // Lembrar login ao sair
+          // _loginController.text = user.login;
+
+          push(context, HomePage(), replace: true);
+        });
+      }
+    });
   }
 
   @override
@@ -49,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
             AppText(
               'Login',
               'Digite o seu login',
-              controller: loginController,
+              controller: _loginController,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               nextFocus: focusSenha,
@@ -60,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               'Senha',
               'Digite a sua senha',
               password: true,
-              controller: senhaController,
+              controller: _senhaController,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               focusNode: focusSenha,
@@ -103,8 +115,8 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    String login = loginController.text;
-    String senha = senhaController.text;
+    String login = _loginController.text;
+    String senha = _senhaController.text;
 
     print('Login: $login');
     print('Senha: $senha');
