@@ -17,8 +17,34 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _body() {
-    List<Carro> carros = CarroApi.getCarros();
+    return FutureBuilder(
+      future: CarroApi.getCarros(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Não foi possível buscar os carros.',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 20,
+              ),
+            ),
+          );
+        }
 
+        if (snapshot.hasData) {
+          List<Carro> carros = snapshot.data;
+          return _listView(carros);
+        }
+
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget _listView(List<Carro> carros) {
     return Container(
       padding: EdgeInsets.all(16.0),
       child: ListView.builder(
@@ -35,7 +61,8 @@ class HomePage extends StatelessWidget {
                 children: <Widget>[
                   Center(
                     child: Image.network(
-                      carro.urlFoto,
+                      carro.urlFoto ??
+                          'http://www.livroandroid.com.br/livro/carros/esportivos/BMW.png',
                       width: 150.0,
                     ),
                   ),
