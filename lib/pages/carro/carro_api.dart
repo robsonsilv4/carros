@@ -4,9 +4,15 @@ import 'package:http/http.dart' as http;
 
 import 'carro.dart';
 
+class TipoCarro {
+  static final String classicos = 'classicos';
+  static final String esportivos = 'esportivos';
+  static final String luxo = 'luxo';
+}
+
 class CarroApi {
-  static Future<List<Carro>> getCarros() async {
-    final url = 'https://carros-springboot.herokuapp.com/api/v1/carros/';
+  static Future<List<Carro>> getCarros(String tipo) async {
+    String url = 'http://livrowebservices.com.br/rest/carros/tipo/$tipo';
     print("GET: $url");
 
     final response = await http.get(url);
