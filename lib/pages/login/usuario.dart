@@ -54,7 +54,7 @@ class Usuario {
     Prefs.setString('user.prefs', json);
   }
 
-  void clear() {
+  static void clear() {
     Prefs.setString('user.prefs', '');
   }
 
