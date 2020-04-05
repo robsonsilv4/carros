@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../utils/alert.dart';
@@ -22,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final focusSenha = FocusNode();
 
-  bool _showProgress = false;
+  final _streamController = StreamController<bool>();
 
   @override
   void initState() {
@@ -79,10 +81,16 @@ class _LoginPageState extends State<LoginPage> {
               validator: _validateSenha,
             ),
             SizedBox(height: 20),
-            AppButton(
-              "Entrar",
-              showProgress: _showProgress,
-              onPressed: _onClickLogin,
+            StreamBuilder<bool>(
+              stream: _streamController.stream,
+              initialData: false,
+              builder: (context, snapshot) {
+                return AppButton(
+                  "Entrar",
+                  showProgress: snapshot.data,
+                  onPressed: _onClickLogin,
+                );
+              },
             ),
           ],
         ),
@@ -121,9 +129,7 @@ class _LoginPageState extends State<LoginPage> {
     print('Login: $login');
     print('Senha: $senha');
 
-    setState(() {
-      _showProgress = true;
-    });
+    _streamController.add(true);
 
     ApiResponse response = await LoginApi.login(login, senha);
 
@@ -139,13 +145,12 @@ class _LoginPageState extends State<LoginPage> {
       alert(context, response.msg);
     }
 
-    setState(() {
-      _showProgress = false;
-    });
+    _streamController.add(false);
   }
 
   @override
   void dispose() {
     super.dispose();
+    _streamController.close();
   }
 }
