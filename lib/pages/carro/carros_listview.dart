@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../../utils/nav.dart';
 import 'carro.dart';
 import 'carro_api.dart';
+import 'carro_page.dart';
 
 class CarrosListView extends StatefulWidget {
   final String tipo;
@@ -14,18 +18,31 @@ class CarrosListView extends StatefulWidget {
 
 class _CarrosListViewState extends State<CarrosListView>
     with AutomaticKeepAliveClientMixin<CarrosListView> {
+  List<Carro> carros;
+
+  final _streamController = StreamController<List<Carro>>();
+
   @override
   bool get wantKeepAlive => true;
+
+  _loadCarros() async {
+    List<Carro> carros = await CarroApi.getCarros(widget.tipo);
+    _streamController.add(carros);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadCarros();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return _body();
-  }
 
-  Widget _body() {
-    return FutureBuilder(
-      future: CarroApi.getCarros(widget.tipo),
+    return StreamBuilder(
+      stream: _streamController.stream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -89,7 +106,7 @@ class _CarrosListViewState extends State<CarrosListView>
                       children: <Widget>[
                         FlatButton(
                           child: const Text('DETALHES'),
-                          onPressed: () {},
+                          onPressed: () => _onClickCarro(carro: carro),
                         ),
                         FlatButton(
                           child: const Text('COMPARTILHAR'),
@@ -105,5 +122,9 @@ class _CarrosListViewState extends State<CarrosListView>
         },
       ),
     );
+  }
+
+  _onClickCarro({Carro carro}) {
+    push(context, CarroPage(carro: carro));
   }
 }
