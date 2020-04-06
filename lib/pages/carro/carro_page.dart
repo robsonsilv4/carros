@@ -2,17 +2,31 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/text.dart';
 import 'carro.dart';
+import 'loripsum_api.dart';
 
-class CarroPage extends StatelessWidget {
+class CarroPage extends StatefulWidget {
   final Carro carro;
 
   CarroPage({@required this.carro});
 
   @override
+  _CarroPageState createState() => _CarroPageState();
+}
+
+class _CarroPageState extends State<CarroPage> {
+  final LoripsumBloc _loripsumBloc = LoripsumBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    _loripsumBloc.fetch();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(carro.nome),
+        title: Text(widget.carro.nome),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.place),
@@ -52,7 +66,7 @@ class CarroPage extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       child: ListView(
         children: <Widget>[
-          Image.network(carro.urlFoto),
+          Image.network(widget.carro.urlFoto),
           _bloco1(),
           Divider(),
           _bloco2(),
@@ -68,8 +82,8 @@ class CarroPage extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            text(carro.nome, fontSize: 20.0, bold: true),
-            text(carro.tipo, fontSize: 16.0),
+            text(widget.carro.nome, fontSize: 20.0, bold: true),
+            text(widget.carro.tipo, fontSize: 16.0),
           ],
         ),
         Row(
@@ -122,13 +136,30 @@ class CarroPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(height: 20.0),
-        text(carro.descricao, fontSize: 16.0, bold: true),
+        text(widget.carro.descricao, fontSize: 16.0, bold: true),
         SizedBox(height: 20.0),
-        text(
-          'Mussum Ipsum, cacilds vidis litro abertis. Tá deprimidis, eu conheço uma cachacis que pode alegrar sua vidis. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. A ordem dos tratores não altera o pão duris. Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio. In elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Vehicula non. Ut sed ex eros. Vivamus sit amet nibh non tellus tristique interdum. Pra lá , depois divoltis porris, paradis. Diuretics paradis num copo é motivis de denguis. Sapien in monti palavris qui num significa nadis i pareci latim. Aenean aliquam molestie leo, vitae iaculis nisl.',
-          fontSize: 16.0,
+        StreamBuilder<String>(
+          stream: _loripsumBloc.stream,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return text(
+              snapshot.data,
+              fontSize: 16.0,
+            );
+          },
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _loripsumBloc.dispose();
   }
 }
