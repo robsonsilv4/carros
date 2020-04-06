@@ -1,7 +1,7 @@
 import '../../utils/network.dart';
-import '../favoritos/carro_dao.dart';
 import 'carro.dart';
 import 'carro_api.dart';
+import 'carro_dao.dart';
 import 'simple_bloc.dart';
 
 class CarrosBloc extends SimpleBloc<List<Carro>> {

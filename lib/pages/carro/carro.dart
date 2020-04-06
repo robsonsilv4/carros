@@ -1,4 +1,4 @@
-import '../favoritos/entity.dart';
+import '../../utils/sql/entity.dart';
 
 class Carro extends Entity {
   int id;

@@ -1,5 +1,6 @@
+import 'package:carros/utils/sql/base_dao.dart';
+
 import '../carro/carro.dart';
-import 'base_dao.dart';
 
 class CarroDAO extends BaseDAO<Carro> {
   @override
