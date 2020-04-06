@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/nav.dart';
+import '../../widgets/text_error.dart';
 import 'carro.dart';
 import 'carro_page.dart';
 import 'carros_bloc.dart';
@@ -39,14 +40,8 @@ class _CarrosListViewState extends State<CarrosListView>
       stream: _bloc.stream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Não foi possível buscar os carros.',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 20,
-              ),
-            ),
+          return TextError(
+            message: 'Não foi possível buscar os carros.',
           );
         }
 
