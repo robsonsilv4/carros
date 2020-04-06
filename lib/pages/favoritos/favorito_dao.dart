@@ -5,9 +5,9 @@ import 'favorito.dart';
 class FavoritoDAO extends BaseDAO<Favorito> {
   @override
   Favorito fromJson(Map<String, dynamic> map) {
-    return null;
+    return Favorito.fromJson(map);
   }
 
   @override
-  String get tableName => 'favorito';
+  String get tableName => 'favoritos';
 }
