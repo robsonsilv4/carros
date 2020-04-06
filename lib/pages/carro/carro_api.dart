@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:carros/pages/favoritos/carro_dao.dart';
-import 'package:carros/pages/login/usuario.dart';
 import 'package:http/http.dart' as http;
 
+import '../login/usuario.dart';
 import 'carro.dart';
 
 class TipoCarro {
@@ -37,10 +36,6 @@ class CarroApi {
           (map) => Carro.fromJson(map),
         )
         .toList();
-
-    final dao = CarroDAO();
-    // carros.forEach(dao.save);
-    carros.forEach((carro) => dao.save(carro));
 
     return carros;
   }
