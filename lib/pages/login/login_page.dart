@@ -8,7 +8,7 @@ import '../../widgets/app_button.dart';
 import '../../widgets/app_text.dart';
 import '../api_response.dart';
 import '../carro/home_page.dart';
-import 'login_api.dart';
+import 'login_bloc.dart';
 import 'usuario.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final focusSenha = FocusNode();
 
-  final _streamController = StreamController<bool>();
+  final _bloc = LoginBloc();
 
   @override
   void initState() {
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 20),
             StreamBuilder<bool>(
-              stream: _streamController.stream,
+              stream: _bloc.stream,
               initialData: false,
               builder: (context, snapshot) {
                 return AppButton(
@@ -129,9 +129,7 @@ class _LoginPageState extends State<LoginPage> {
     print('Login: $login');
     print('Senha: $senha');
 
-    _streamController.add(true);
-
-    ApiResponse response = await LoginApi.login(login, senha);
+    ApiResponse response = await _bloc.login(login, senha);
 
     if (response.ok) {
       Usuario user = response.result;
@@ -144,13 +142,11 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       alert(context, response.msg);
     }
-
-    _streamController.add(false);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _streamController.close();
+    _bloc.dispose();
   }
 }
