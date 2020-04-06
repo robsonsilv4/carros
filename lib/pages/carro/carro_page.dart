@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carros/pages/favoritos/favorito_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/text.dart';
+import '../favoritos/favorito_service.dart';
 import 'carro.dart';
 import 'loripsum_api.dart';
 
@@ -18,11 +18,20 @@ class CarroPage extends StatefulWidget {
 class _CarroPageState extends State<CarroPage> {
   final LoripsumBloc _loripsumBloc = LoripsumBloc();
 
+  Color color = Colors.grey;
+
   Carro get carro => widget.carro;
 
   @override
   void initState() {
     super.initState();
+
+    FavoritoService.isFavorite(carro).then((bool favorito) {
+      setState(() {
+        color = favorito ? Colors.red : Colors.grey;
+      });
+    });
+
     _loripsumBloc.fetch();
   }
 
@@ -97,7 +106,7 @@ class _CarroPageState extends State<CarroPage> {
             IconButton(
               icon: Icon(
                 Icons.favorite,
-                color: Colors.red,
+                color: color,
                 size: 40.0,
               ),
               onPressed: _onClickFavorito,
@@ -133,8 +142,11 @@ class _CarroPageState extends State<CarroPage> {
 
   _onClickVideo() {}
 
-  void _onClickFavorito() {
-    FavoritoService.favoritar(carro);
+  void _onClickFavorito() async {
+    bool favorito = await FavoritoService.favoritar(carro);
+    setState(() {
+      color = favorito ? Colors.red : Colors.grey;
+    });
   }
 
   void _onClickCompartilhar() {}

@@ -9,5 +9,5 @@ class FavoritoDAO extends BaseDAO<Favorito> {
   }
 
   @override
-  String get tableName => 'favoritos';
+  String get tableName => 'favorito';
 }
