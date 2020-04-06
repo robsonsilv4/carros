@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../../utils/alert.dart';
@@ -29,18 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-
-    Future<Usuario> future = Usuario.get();
-    future.then((Usuario user) {
-      if (user != null) {
-        setState(() {
-          // Lembrar login ao sair
-          // _loginController.text = user.login;
-
-          push(context, HomePage(), replace: true);
-        });
-      }
-    });
   }
 
   @override
