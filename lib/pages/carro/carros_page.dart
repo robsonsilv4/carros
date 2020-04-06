@@ -46,7 +46,10 @@ class _CarrosPageState extends State<CarrosPage>
 
         if (snapshot.hasData) {
           List<Carro> carros = snapshot.data;
-          return CarrosListView(carros: carros);
+          return RefreshIndicator(
+            child: CarrosListView(carros: carros),
+            onRefresh: _onRefresh,
+          );
         }
 
         return Center(
@@ -54,6 +57,10 @@ class _CarrosPageState extends State<CarrosPage>
         );
       },
     );
+  }
+
+  Future<void> _onRefresh() {
+    return _bloc.fetch(tipo: tipo);
   }
 
   @override
