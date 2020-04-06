@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../utils/prefs.dart';
 import '../../widgets/drawer_list.dart';
 import 'carro_api.dart';
-import 'carros_listview.dart';
+import 'carros_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -62,13 +62,13 @@ class _HomePageState extends State<HomePage>
           : TabBarView(
               controller: _tabController,
               children: [
-                CarrosListView(
+                CarrosPage(
                   tipo: TipoCarro.classicos,
                 ),
-                CarrosListView(
+                CarrosPage(
                   tipo: TipoCarro.esportivos,
                 ),
-                CarrosListView(
+                CarrosPage(
                   tipo: TipoCarro.luxo,
                 ),
               ],
