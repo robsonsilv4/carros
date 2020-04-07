@@ -32,9 +32,9 @@ class FavoritoService {
     return carros;
   }
 
-  static Future<bool> isFavorite(Carro carro) async {
+  static Future<bool> isFavorito(Carro carro) async {
     final dao = FavoritoDAO();
-    final exists = await dao.exists(carro.id);
+    bool exists = await dao.exists(carro.id);
     return exists;
   }
 }

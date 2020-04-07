@@ -31,11 +31,13 @@ class _CarroPageState extends State<CarroPage> {
   void initState() {
     super.initState();
 
-    FavoritoService.isFavorite(carro).then((bool favorito) {
-      setState(() {
-        color = favorito ? Colors.red : Colors.grey;
-      });
-    });
+    FavoritoService.isFavorito(carro).then(
+      (bool favorito) {
+        setState(() {
+          color = favorito ? Colors.red : Colors.grey;
+        });
+      },
+    );
 
     _loripsumBloc.fetch();
   }
@@ -115,7 +117,7 @@ class _CarroPageState extends State<CarroPage> {
                 color: color,
                 size: 40.0,
               ),
-              onPressed: _onClickFavorito,
+              onPressed: () => _onClickFavorito(),
             ),
             IconButton(
               icon: Icon(
