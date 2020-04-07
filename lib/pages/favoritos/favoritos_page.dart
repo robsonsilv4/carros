@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../../widgets/text_error.dart';
 import '../carro/carro.dart';
 import '../carro/carros_listview.dart';
-import 'favoritos_bloc.dart';
 
 class FavoritosPage extends StatefulWidget {
   @override
@@ -12,15 +12,13 @@ class FavoritosPage extends StatefulWidget {
 
 class _FavoritosPageState extends State<FavoritosPage>
     with AutomaticKeepAliveClientMixin<FavoritosPage> {
-  final _bloc = FavoritosBloc();
-
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-    _bloc.fetch();
+    favoritosBloc.fetch();
   }
 
   @override
@@ -28,7 +26,7 @@ class _FavoritosPageState extends State<FavoritosPage>
     super.build(context);
 
     return StreamBuilder(
-      stream: _bloc.stream,
+      stream: favoritosBloc.stream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return TextError(
@@ -52,12 +50,6 @@ class _FavoritosPageState extends State<FavoritosPage>
   }
 
   Future<void> _onRefresh() {
-    return _bloc.fetch();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _bloc.dispose();
+    return favoritosBloc.fetch();
   }
 }

@@ -1,6 +1,9 @@
+import 'package:carros/pages/favoritos/favoritos_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/login/login_page.dart';
+
+final favoritosBloc = FavoritosBloc();
 
 void main() => runApp(MyApp());
 

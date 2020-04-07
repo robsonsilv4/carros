@@ -1,3 +1,4 @@
+import '../../main.dart';
 import '../carro/carro.dart';
 import '../carro/carro_dao.dart';
 import 'favorito.dart';
@@ -12,9 +13,11 @@ class FavoritoService {
 
     if (exists) {
       dao.delete(carro.id);
+      favoritosBloc.fetch();
       return false;
     } else {
       dao.save(favorito);
+      favoritosBloc.fetch();
       return true;
     }
   }
