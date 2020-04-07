@@ -19,49 +19,61 @@ class CarrosListView extends StatelessWidget {
         itemBuilder: (context, index) {
           Carro carro = carros[index];
 
-          return Card(
-            color: Colors.grey.shade100,
-            child: Container(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Center(
-                    child: CachedNetworkImage(
-                      imageUrl: carro.urlFoto ??
-                          'http://www.livroandroid.com.br/livro/carros/esportivos/BMW.png',
-                      width: 150.0,
+          return InkWell(
+            onTap: () => _onClickCarro(
+              context: context,
+              carro: carro,
+            ),
+            onLongPress: () => _onLongClickCarro(
+              context: context,
+              carro: carro,
+            ),
+            child: Card(
+              color: Colors.grey.shade100,
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: CachedNetworkImage(
+                        imageUrl: carro.urlFoto ??
+                            'http://www.livroandroid.com.br/livro/carros/esportivos/BMW.png',
+                        width: 150.0,
+                      ),
                     ),
-                  ),
-                  Text(
-                    carro.nome,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  Text(
-                    carro.nome,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  ButtonBarTheme(
-                    data: ButtonBarTheme.of(context),
-                    child: ButtonBar(
-                      children: <Widget>[
-                        FlatButton(
-                          child: const Text('DETALHES'),
-                          onPressed: () => _onClickCarro(
-                            context: context,
-                            carro: carro,
+                    Text(
+                      carro.nome,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 25),
+                    ),
+                    Text(
+                      carro.nome,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    ButtonBarTheme(
+                      data: ButtonBarTheme.of(context),
+                      child: ButtonBar(
+                        children: <Widget>[
+                          FlatButton(
+                            child: const Text('DETALHES'),
+                            onPressed: () => _onClickCarro(
+                              context: context,
+                              carro: carro,
+                            ),
                           ),
-                        ),
-                        FlatButton(
-                          child: const Text('COMPARTILHAR'),
-                          onPressed: () {},
-                        ),
-                      ],
+                          FlatButton(
+                            child: const Text('COMPARTILHAR'),
+                            onPressed: () {
+                              _onClickShare();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
@@ -72,5 +84,44 @@ class CarrosListView extends StatelessWidget {
 
   _onClickCarro({BuildContext context, Carro carro}) {
     push(context, CarroPage(carro: carro));
+  }
+
+  _onLongClickCarro({BuildContext context, Carro carro}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text(carro.nome),
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.directions_car),
+              title: Text('Detalhes'),
+              onTap: () {
+                // pop(context);
+                _onClickCarro(
+                  context: context,
+                  carro: carro,
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.share),
+              title: Text('Compartilhar'),
+              onTap: () {
+                // pop(context);
+                _onClickShare(
+                  context: context,
+                  carro: carro,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _onClickShare({BuildContext context, Carro carro}) {
+    print(carro.nome);
   }
 }

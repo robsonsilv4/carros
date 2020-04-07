@@ -26,6 +26,7 @@ class _SplashPageState extends State<SplashPage> {
       futureC,
     ]).then((List values) {
       Usuario user = values[2];
+      print(user);
 
       if (user != null) {
         push(context, HomePage(), replace: true);
@@ -43,10 +44,5 @@ class _SplashPageState extends State<SplashPage> {
         child: CircularProgressIndicator(),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

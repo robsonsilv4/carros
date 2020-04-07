@@ -17,14 +17,18 @@ class LoginApi {
         'password': senha,
       };
 
-      final String s = json.encode(params);
+      final String string = jsonEncode(params);
 
-      var response = await http.post(url, headers: headers, body: s);
+      var response = await http.post(
+        url,
+        headers: headers,
+        body: string,
+      );
 
       print('Status: ${response.statusCode}');
       print('Body: ${response.body}');
 
-      Map mapResponse = json.decode(response.body);
+      Map mapResponse = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         final user = Usuario.fromJson(mapResponse);

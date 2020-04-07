@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:carros/utils/prefs.dart';
+import '../../utils/prefs.dart';
 
 class Usuario {
   int id;
@@ -43,11 +43,6 @@ class Usuario {
     return data;
   }
 
-  @override
-  String toString() {
-    return super.toString();
-  }
-
   void save() {
     Map map = toJson();
     String json = jsonEncode(map);
@@ -66,5 +61,10 @@ class Usuario {
     Map map = jsonDecode(json);
     Usuario user = Usuario.fromJson(map);
     return user;
+  }
+
+  @override
+  String toString() {
+    return 'Usuario {login: $login, nome: $nome}';
   }
 }
