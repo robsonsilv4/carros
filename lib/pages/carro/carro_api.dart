@@ -42,34 +42,52 @@ class CarroApi {
   }
 
   static Future<ApiResponse<bool>> save(Carro carro) async {
-    Usuario user = await Usuario.get();
+    try {
+      Usuario user = await Usuario.get();
 
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${user.token}',
-    };
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${user.token}',
+      };
 
-    final url = 'https://carros-springboot.herokuapp.com/api/v2/carros';
+      String url = 'https://carros-springboot.herokuapp.com/api/v2/carros';
+      if (carro.id != null) {
+        url += '/${carro.id}';
+      }
 
-    String json = carro.toJsonString();
+      String json = carro.toJsonString();
 
-    final response = await http.post(
-      url,
-      body: json,
-      headers: headers,
-    );
+      final response = await (carro.id == null
+          ? http.post(
+              url,
+              body: json,
+              headers: headers,
+            )
+          : http.put(
+              url,
+              body: json,
+              headers: headers,
+            ));
 
-    if (response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Map mapResponse = jsonDecode(response.body);
+
+        Carro carro = Carro.fromJson(mapResponse);
+        print(carro.id);
+
+        return ApiResponse.ok(true);
+      }
+
+      if (response.body == null || response.body.isEmpty) {
+        return ApiResponse.error('Não foi possível salvar o carro');
+      }
+
       Map mapResponse = jsonDecode(response.body);
 
-      Carro carro = Carro.fromJson(mapResponse);
-      print(carro.id);
-
-      return ApiResponse.ok(true);
+      return ApiResponse.error(mapResponse['error']);
+    } catch (error) {
+      print(error);
+      return ApiResponse.error('Não foi possível salvar o carro');
     }
-
-    Map mapResponse = jsonDecode(response.body);
-
-    return ApiResponse.error(mapResponse['error']);
   }
 }
