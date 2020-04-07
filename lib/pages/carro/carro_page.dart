@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/alert.dart';
 import '../../utils/nav.dart';
 import '../../widgets/text.dart';
+import '../api_response.dart';
 import '../favoritos/favorito_service.dart';
 import 'carro.dart';
+import 'carro_api.dart';
 import 'carro_form_page.dart';
 import 'loripsum_api.dart';
 
@@ -136,7 +139,7 @@ class _CarroPageState extends State<CarroPage> {
         );
         break;
       case 'Deletar':
-        print('Deletar');
+        deletar();
         break;
       case 'Compartilhar':
         print('Compartilhar');
@@ -181,6 +184,18 @@ class _CarroPageState extends State<CarroPage> {
         ),
       ],
     );
+  }
+
+  void deletar() async {
+    ApiResponse<bool> response = await CarroApi.delete(carro);
+
+    if (response.ok) {
+      alert(context, 'Carro removido com sucesso!', callback: () {
+        pop(context);
+      });
+    } else {
+      alert(context, response.msg);
+    }
   }
 
   @override
