@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-
+import '../../utils/http_helper.dart' as http;
 import '../api_response.dart';
-import '../login/usuario.dart';
 import 'carro.dart';
 
 class TipoCarro {
@@ -14,19 +12,11 @@ class TipoCarro {
 
 class CarroApi {
   static Future<List<Carro>> getCarros(String tipo) async {
-    Usuario user = await Usuario.get();
-
-    final Map<String, String> headers = {
-      'Context-Type': 'application/json',
-      'Authorization': 'Bearer ${user.token}',
-    };
-    print(headers);
-
     String url =
         'https://carros-springboot.herokuapp.com/api/v2/carros/tipo/$tipo';
     print("GET: $url");
 
-    final response = await http.get(url, headers: headers);
+    final response = await http.get(url);
     final json = response.body;
 
     // List<Map<String, dynamic>>
@@ -43,13 +33,6 @@ class CarroApi {
 
   static Future<ApiResponse<bool>> save(Carro carro) async {
     try {
-      Usuario user = await Usuario.get();
-
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${user.token}',
-      };
-
       String url = 'https://carros-springboot.herokuapp.com/api/v2/carros';
       if (carro.id != null) {
         url += '/${carro.id}';
@@ -58,16 +41,8 @@ class CarroApi {
       String json = carro.toJsonString();
 
       final response = await (carro.id == null
-          ? http.post(
-              url,
-              body: json,
-              headers: headers,
-            )
-          : http.put(
-              url,
-              body: json,
-              headers: headers,
-            ));
+          ? http.post(url, body: json)
+          : http.put(url, body: json));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         Map mapResponse = jsonDecode(response.body);
@@ -93,17 +68,10 @@ class CarroApi {
 
   static Future<ApiResponse<bool>> delete(Carro carro) async {
     try {
-      Usuario user = await Usuario.get();
-
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${user.token}',
-      };
-
       String url =
           'https://carros-springboot.herokuapp.com/api/v2/carros/${carro.id}';
 
-      final response = await http.delete(url, headers: headers);
+      final response = await http.delete(url);
 
       if (response.statusCode == 200) {
         return ApiResponse.ok(true);
