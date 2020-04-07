@@ -1,11 +1,14 @@
-import '../../main.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+
 import '../carro/carro.dart';
 import '../carro/carro_dao.dart';
 import 'favorito.dart';
 import 'favorito_dao.dart';
+import 'favoritos_bloc.dart';
 
 class FavoritoService {
-  static Future<bool> favoritar(Carro carro) async {
+  static Future<bool> favoritar(BuildContext context, Carro carro) async {
     Favorito favorito = Favorito.fromCarro(carro: carro);
 
     final dao = FavoritoDAO();
@@ -13,11 +16,11 @@ class FavoritoService {
 
     if (exists) {
       dao.delete(carro.id);
-      favoritosBloc.fetch();
+      Provider.of<FavoritosBloc>(context).fetch();
       return false;
     } else {
       dao.save(favorito);
-      favoritosBloc.fetch();
+      Provider.of<FavoritosBloc>(context).fetch();
       return true;
     }
   }
