@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/nav.dart';
 import '../../utils/prefs.dart';
 import '../../widgets/drawer_list.dart';
 import '../favoritos/favoritos_page.dart';
 import 'carro_api.dart';
+import 'carro_form_page.dart';
 import 'carros_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -83,6 +85,14 @@ class _HomePageState extends State<HomePage>
               ],
             ),
       drawer: DrawerList(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: _onClickAdicionarCarro,
+      ),
     );
+  }
+
+  void _onClickAdicionarCarro() {
+    push(context, CarroFormPage());
   }
 }

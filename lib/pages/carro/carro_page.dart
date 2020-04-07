@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/nav.dart';
 import '../../widgets/text.dart';
 import '../favoritos/favorito_service.dart';
 import 'carro.dart';
+import 'carro_form_page.dart';
 import 'loripsum_api.dart';
 
 class CarroPage extends StatefulWidget {
@@ -127,7 +129,10 @@ class _CarroPageState extends State<CarroPage> {
   _onClickPopupMenu(String value) {
     switch (value) {
       case 'Editar':
-        print('Editar');
+        push(
+          context,
+          CarroFormPage(carro: carro),
+        );
         break;
       case 'Deletar':
         print('Deletar');
