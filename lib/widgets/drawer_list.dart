@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../firebase/firebase_service.dart';
 import '../pages/login/login_page.dart';
 import '../pages/login/usuario.dart';
 import '../utils/nav.dart';
@@ -7,16 +9,16 @@ import '../utils/nav.dart';
 class DrawerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future<Usuario> future = Usuario.get();
+    Future<FirebaseUser> future = FirebaseAuth.instance.currentUser();
 
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          FutureBuilder<Usuario>(
+          FutureBuilder<FirebaseUser>(
             future: future,
             builder: (context, snapshot) {
-              Usuario user = snapshot.data;
+              FirebaseUser user = snapshot.data;
               return user != null ? _header(user: user) : Container();
             },
           ),
@@ -51,20 +53,21 @@ class DrawerList extends StatelessWidget {
     );
   }
 
-  Widget _header({@required Usuario user}) {
+  Widget _header({@required FirebaseUser user}) {
     return UserAccountsDrawerHeader(
-      accountName: Text(user.nome),
+      accountName: Text(user.displayName ?? ''),
       accountEmail: Text(user.email),
-      currentAccountPicture: CircleAvatar(
-        backgroundImage: NetworkImage(
-          user.urlFoto,
-        ),
-      ),
+      currentAccountPicture: user.photoUrl != null
+          ? CircleAvatar(
+              backgroundImage: NetworkImage(user.photoUrl),
+            )
+          : FlutterLogo(),
     );
   }
 
   _onClickLogout(BuildContext context) {
     Usuario.clear();
+    FirebaseService().logout();
     Navigator.pop(context);
     push(context, LoginPage(), replace: true);
   }

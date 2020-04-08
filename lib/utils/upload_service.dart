@@ -45,10 +45,10 @@ class UploadService {
 
       String urlFoto = map["url"];
 
-      return ApiResponse.ok(urlFoto);
+      return ApiResponse.ok(result: urlFoto);
     } catch (error) {
       print(error);
-      return ApiResponse.error('Não foi possível fazer o upload.');
+      return ApiResponse.error(message: 'Não foi possível fazer o upload.');
     }
   }
 

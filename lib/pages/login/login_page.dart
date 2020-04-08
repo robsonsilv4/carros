@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
+import '../../firebase/firebase_service.dart';
 import '../../utils/alert.dart';
 import '../../utils/nav.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text.dart';
 import '../api_response.dart';
+import '../cadastro/cadastro_page.dart';
 import '../carro/home_page.dart';
 import 'login_bloc.dart';
 import 'usuario.dart';
@@ -86,6 +88,21 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () => _onClickGoole(),
               ),
             ),
+            Container(
+              height: 46,
+              margin: EdgeInsets.only(top: 20),
+              child: InkWell(
+                onTap: _onClickCadastrar,
+                child: Text(
+                  "Cadastre-se",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -134,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
         replace: true,
       );
     } else {
-      alert(context, response.msg);
+      alert(context, response.message);
     }
   }
 
@@ -144,7 +161,18 @@ class _LoginPageState extends State<LoginPage> {
     _bloc.dispose();
   }
 
-  _onClickGoole() {
-    print('Google');
+  _onClickGoole() async {
+    final service = FirebaseService();
+    ApiResponse response = await service.loginGoogle();
+
+    if (response.ok) {
+      push(context, HomePage(), replace: true);
+    }
+
+    alert(context, response.message);
+  }
+
+  void _onClickCadastrar() {
+    push(context, CadastroPage(), replace: true);
   }
 }

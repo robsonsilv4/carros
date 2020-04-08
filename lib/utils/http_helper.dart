@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import '../pages/login/usuario.dart';
 
 Future<http.Response> get(String url) async {
-  final headers = await _headers();
-  var response = await http.get(url, headers: headers);
+  // final headers = await _headers();
+  var response = await http.get(url);
   return response;
 }
 

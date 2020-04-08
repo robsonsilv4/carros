@@ -1,10 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/nav.dart';
 import '../../utils/sql/database_helper.dart';
 import '../carro/home_page.dart';
 import '../login/login_page.dart';
-import 'usuario.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -18,15 +18,14 @@ class _SplashPageState extends State<SplashPage> {
 
     Future futureA = DatabaseHelper.getInstance().db;
     Future futureB = Future.delayed(Duration(seconds: 3));
-    Future<Usuario> futureC = Usuario.get();
+    Future<FirebaseUser> futureC = FirebaseAuth.instance.currentUser();
 
     Future.wait([
       futureA,
       futureB,
       futureC,
     ]).then((List values) {
-      Usuario user = values[2];
-      print(user);
+      FirebaseUser user = values[2];
 
       if (user != null) {
         push(context, HomePage(), replace: true);
