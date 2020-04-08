@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../pages/api_response.dart';
 import '../pages/login/usuario.dart';
+
+String firebaseUserUid;
 
 class FirebaseService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -24,6 +27,7 @@ class FirebaseService {
         urlFoto: fUser.photoUrl,
       );
       user.save();
+      saveUser(fUser);
 
       // Resposta genérica
       return ApiResponse.ok();
@@ -57,6 +61,7 @@ class FirebaseService {
         urlFoto: fUser.photoUrl,
       );
       user.save();
+      saveUser(fUser);
 
       // Resposta genérica
       return ApiResponse.ok();
@@ -93,7 +98,22 @@ class FirebaseService {
   }
 
   Future<void> logout() async {
+    // await FavoritoService().deleteCarros();
     await _auth.signOut();
     await _googleSignIn.signOut();
+  }
+}
+
+void saveUser(FirebaseUser fUser) async {
+  if (fUser != null) {
+    firebaseUserUid = fUser.uid;
+    DocumentReference referenceUser =
+        Firestore.instance.collection('users').document(firebaseUserUid);
+    referenceUser.setData({
+      'nome': fUser.displayName,
+      'email': fUser.email,
+      'login': fUser.email,
+      'urlFoto': fUser.photoUrl,
+    });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../firebase/firebase_service.dart';
 import '../../utils/nav.dart';
 import '../../utils/sql/database_helper.dart';
 import '../carro/home_page.dart';
@@ -28,10 +29,11 @@ class _SplashPageState extends State<SplashPage> {
       FirebaseUser user = values[2];
 
       if (user != null) {
+        firebaseUserUid = user.uid;
         push(context, HomePage(), replace: true);
+      } else {
+        push(context, LoginPage());
       }
-
-      push(context, LoginPage());
     });
   }
 
