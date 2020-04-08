@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-alert(BuildContext context, String msg, {Function callback}) {
+alert(BuildContext context, String message, {Function callback}) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -8,7 +8,7 @@ alert(BuildContext context, String msg, {Function callback}) {
       return WillPopScope(
         child: AlertDialog(
           title: Text('Carros'),
-          content: Text(msg),
+          content: Text(message),
           actions: <Widget>[
             FlatButton(
               onPressed: () {

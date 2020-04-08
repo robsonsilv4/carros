@@ -24,27 +24,27 @@ class DrawerList extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.star),
-            title: Text("Favoritos"),
-            subtitle: Text("Mais informações..."),
+            title: Text('Favoritos'),
+            subtitle: Text('Mais informações...'),
             trailing: Icon(Icons.arrow_forward),
             onTap: () {
-              print("Favoritos");
+              print('Favoritos');
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: Icon(Icons.help),
-            title: Text("Ajuda"),
-            subtitle: Text("Mais informações..."),
+            title: Text('Ajuda'),
+            subtitle: Text('Mais informações...'),
             trailing: Icon(Icons.arrow_forward),
             onTap: () {
-              print("Item 1");
+              print('Item 1');
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
-            title: Text("Sair"),
+            title: Text('Sair'),
             trailing: Icon(Icons.arrow_forward),
             onTap: () => _onClickLogout(context),
           )
@@ -56,7 +56,7 @@ class DrawerList extends StatelessWidget {
   Widget _header({@required FirebaseUser user}) {
     return UserAccountsDrawerHeader(
       accountName: Text(user.displayName ?? ''),
-      accountEmail: Text(user.email),
+      accountEmail: Text(user.email ?? ''),
       currentAccountPicture: user.photoUrl != null
           ? CircleAvatar(
               backgroundImage: NetworkImage(user.photoUrl),
