@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 import '../../utils/alert.dart';
 import '../../utils/nav.dart';
@@ -78,6 +79,13 @@ class _LoginPageState extends State<LoginPage> {
                 );
               },
             ),
+            Container(
+              height: 46.0,
+              margin: EdgeInsets.only(top: 20.0),
+              child: GoogleSignInButton(
+                onPressed: () => _onClickGoole(),
+              ),
+            ),
           ],
         ),
       ),
@@ -134,5 +142,9 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     super.dispose();
     _bloc.dispose();
+  }
+
+  _onClickGoole() {
+    print('Google');
   }
 }
