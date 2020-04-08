@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../utils/sql/entity.dart';
 
 class Carro extends Entity {
@@ -51,5 +53,12 @@ class Carro extends Entity {
   String toJsonString() {
     String json = jsonEncode(toJson());
     return json;
+  }
+
+  latLong() {
+    LatLng(
+      latitude == null || latitude.isEmpty ? 0.0 : double.parse(latitude),
+      latitude == null || latitude.isEmpty ? 0.0 : double.parse(latitude),
+    );
   }
 }

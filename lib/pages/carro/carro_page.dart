@@ -10,6 +10,7 @@ import 'carro.dart';
 import 'carro_api.dart';
 import 'carro_form_page.dart';
 import 'loripsum_api.dart';
+import 'mapa_page.dart';
 import 'video_page.dart';
 
 class CarroPage extends StatefulWidget {
@@ -51,7 +52,7 @@ class _CarroPageState extends State<CarroPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.place),
-            onPressed: _onClickMapa,
+            onPressed: () => _onClickMapa(context),
           ),
           IconButton(
             icon: Icon(Icons.videocam),
@@ -150,7 +151,13 @@ class _CarroPageState extends State<CarroPage> {
     }
   }
 
-  _onClickMapa() {}
+  _onClickMapa(BuildContext context) {
+    if (carro.latitude != null && carro.longitude != null) {
+      push(context, MapaPage(carro: carro));
+    }
+
+    alert(context, 'Este carro não possuí coordenadas.');
+  }
 
   _onClickVideo(context) {
     if (carro.urlVideo != null && carro.urlVideo.isNotEmpty) {
