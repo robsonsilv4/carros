@@ -10,6 +10,7 @@ import 'carro.dart';
 import 'carro_api.dart';
 import 'carro_form_page.dart';
 import 'loripsum_api.dart';
+import 'video_page.dart';
 
 class CarroPage extends StatefulWidget {
   final Carro carro;
@@ -54,7 +55,7 @@ class _CarroPageState extends State<CarroPage> {
           ),
           IconButton(
             icon: Icon(Icons.videocam),
-            onPressed: _onClickVideo,
+            onPressed: () => _onClickVideo(context),
           ),
           PopupMenuButton<String>(
             onSelected: _onClickPopupMenu,
@@ -151,7 +152,14 @@ class _CarroPageState extends State<CarroPage> {
 
   _onClickMapa() {}
 
-  _onClickVideo() {}
+  _onClickVideo(context) {
+    if (carro.urlVideo != null && carro.urlVideo.isNotEmpty) {
+      // launch(carro.urlVideo);
+      push(context, VideoPage(carro: carro));
+    }
+
+    alert(context, 'Este carro não possuí um vídeo.');
+  }
 
   void _onClickFavorito() async {
     bool favorito = await FavoritoService.favoritar(
