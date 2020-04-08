@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
@@ -31,6 +32,28 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+
+    RemoteConfig.instance.then(
+      (remoteConfig) {
+        remoteConfig.setConfigSettings(
+          RemoteConfigSettings(
+            debugMode: true,
+          ),
+        );
+
+        try {
+          remoteConfig.fetch(
+            expiration: Duration(minutes: 1),
+          );
+          remoteConfig.activateFetched();
+        } catch (error) {
+          print(error);
+        }
+
+        final message = remoteConfig.getString('message');
+        print('Message: $message');
+      },
+    );
 
     initFcm();
   }
