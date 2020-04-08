@@ -167,9 +167,9 @@ class _LoginPageState extends State<LoginPage> {
 
     if (response.ok) {
       push(context, HomePage(), replace: true);
+    } else {
+      alert(context, response.message);
     }
-
-    alert(context, response.message);
   }
 
   void _onClickCadastrar() {
