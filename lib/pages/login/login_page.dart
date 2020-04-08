@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
+import '../../firebase/firebase.dart';
 import '../../firebase/firebase_service.dart';
 import '../../utils/alert.dart';
 import '../../utils/nav.dart';
@@ -30,6 +31,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+
+    initFcm();
   }
 
   @override
