@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 import '../../utils/nav.dart';
 import 'carro.dart';
@@ -87,12 +88,22 @@ class CarrosListView extends StatelessWidget {
   }
 
   _onLongClickCarro({BuildContext context, Carro carro}) {
-    showDialog(
+    showModalBottomSheet(
       context: context,
       builder: (context) {
-        return SimpleDialog(
-          title: Text(carro.nome),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                carro.nome,
+                style: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             ListTile(
               leading: Icon(Icons.directions_car),
               title: Text('Detalhes'),
@@ -123,5 +134,6 @@ class CarrosListView extends StatelessWidget {
 
   void _onClickShare({BuildContext context, Carro carro}) {
     print(carro.nome);
+    Share.share(carro.urlFoto);
   }
 }
