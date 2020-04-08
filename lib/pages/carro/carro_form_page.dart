@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../firebase/firebase_service.dart';
 import '../../utils/alert.dart';
 import '../../utils/nav.dart';
 import '../../widgets/app_button.dart';
@@ -203,6 +204,8 @@ class _CarroFormPageState extends State<CarroFormPage> {
   void _onClickFoto() async {
     File file = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (file != null) {
+      FirebaseService.uploadFirebaseStorage(file);
+
       setState(() {
         this._file = file;
       });

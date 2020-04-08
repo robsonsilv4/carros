@@ -11,6 +11,8 @@ import '../pages/api_response.dart';
 class UploadService {
   static Future<ApiResponse<String>> upload(File file) async {
     try {
+      // FirebaseService.uploadFirebaseStorage(file);
+
       String url = "https://carros-springboot.herokuapp.com/api/v1/upload";
 
       List<int> imageBytes = file.readAsBytesSync();
