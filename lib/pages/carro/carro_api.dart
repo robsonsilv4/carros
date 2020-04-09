@@ -46,6 +46,19 @@ class CarroApi {
     return carros;
   }
 
+  static search(String query) async {
+    // TODO: Remover parâmetros
+    List<Carro> carros = await getCarros('classicos', 0);
+
+    List<Carro> list = [];
+
+    for (Carro carro in carros) {
+      if (carro.nome.toUpperCase().contains(query.toUpperCase())) {
+        list.add(carro);
+      }
+    }
+  }
+
   static Future<ApiResponse> save(Carro carro, File file) async {
     try {
       if (file != null) {

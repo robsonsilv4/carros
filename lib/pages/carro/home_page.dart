@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/alert.dart';
 import '../../utils/nav.dart';
 import '../../utils/prefs.dart';
 import '../../widgets/drawer_list.dart';
 import '../favoritos/favoritos_page.dart';
+import 'carro.dart';
 import 'carro_api.dart';
 import 'carro_form_page.dart';
+import 'carro_search.dart';
 import 'carros_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,6 +46,13 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: AppBar(
         title: Text('Carros'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            // onPressed: _onClickSearch,
+            onPressed: () {},
+          )
+        ],
         bottom: _tabController == null
             ? null
             : TabBar(
@@ -95,4 +105,17 @@ class _HomePageState extends State<HomePage>
   void _onClickAdicionarCarro() {
     push(context, CarroFormPage());
   }
+
+  void _onClickSearch() async {
+    final carro = await showSearch<Carro>(
+      context: context,
+      delegate: CarroSearch(),
+    );
+
+    if (carro != null) {
+      alert(context, carro.nome);
+    }
+  }
 }
+
+class CarrosSearch {}
