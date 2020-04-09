@@ -125,7 +125,7 @@ Distribuido sobre a licença do MIT. Veja `LICENSE` para mais inoformações.
 
 ## Contato
 
-Robson Silva - [@robsonsilv4](https://linkedin.com/in/robsonsilva) - robsonsilv410@gmail.com
+Robson Silva - [@robsonsilv4](https://linkedin.com/in/robsonsilv4) - robsonsilv410@gmail.com
 
 Link do projeto: [https://github.com/robsonsilv4/carros](https://github.com/your_username/repo_name)
 
@@ -140,4 +140,4 @@ Link do projeto: [https://github.com/robsonsilv4/carros](https://github.com/your
 [license-shield]: https://img.shields.io/github/license/robsonsilv4/carros.svg?style=flat-square
 [license-url]: https://github.com/robsonsilv4/carros/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/robsonsilva
+[linkedin-url]: https://linkedin.com/in/robsonsilv4
