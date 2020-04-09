@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
@@ -11,6 +12,7 @@ import '../../widgets/app_text.dart';
 import '../api_response.dart';
 import '../cadastro/cadastro_page.dart';
 import '../carro/home_page.dart';
+import 'fingerprint.dart';
 import 'login_bloc.dart';
 import 'usuario.dart';
 
@@ -29,9 +31,25 @@ class _LoginPageState extends State<LoginPage> {
 
   final _bloc = LoginBloc();
 
+  FirebaseUser fUser;
+
+  bool showForm;
+
   @override
   void initState() {
     super.initState();
+
+    FirebaseAuth.instance.currentUser().then((fUser) {
+      setState(() {
+        this.fUser = fUser;
+
+        if (fUser != null) {
+          showForm = true;
+        } else {
+          showForm = false;
+        }
+      });
+    });
 
     RemoteConfig.instance.then(
       (remoteConfig) {
@@ -128,6 +146,21 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: TextDecoration.underline),
                 ),
               ),
+            ),
+            Opacity(
+              opacity: fUser != null ? 1 : 0,
+              child: Container(
+                height: 46,
+                child: InkWell(
+                  child: Icon(
+                    Icons.fingerprint,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onTap: () {
+                    _onClickFingerPrint(context);
+                  },
+                ),
+              ),
             )
           ],
         ),
@@ -200,5 +233,12 @@ class _LoginPageState extends State<LoginPage> {
 
   void _onClickCadastrar() {
     push(context, CadastroPage(), replace: true);
+  }
+
+  void _onClickFingerPrint(BuildContext context) async {
+    final ok = await Fingerprint.verify();
+    if (ok) {
+      push(context, HomePage());
+    }
   }
 }
