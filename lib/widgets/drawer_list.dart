@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../firebase/firebase_service.dart';
 import '../pages/login/login_page.dart';
 import '../pages/login/usuario.dart';
+import '../pages/site_page.dart';
 import '../utils/nav.dart';
 
 class DrawerList extends StatelessWidget {
@@ -31,6 +32,11 @@ class DrawerList extends StatelessWidget {
               print('Favoritos');
               Navigator.pop(context);
             },
+          ),
+          ListTile(
+            title: Text('Visitar o site'),
+            leading: Icon(Icons.web),
+            onTap: () => _onClickSite(context),
           ),
           ListTile(
             leading: Icon(Icons.help),
@@ -70,5 +76,10 @@ class DrawerList extends StatelessWidget {
     FirebaseService().logout();
     Navigator.pop(context);
     push(context, LoginPage(), replace: true);
+  }
+
+  _onClickSite(context) {
+    pop(context);
+    push(context, SitePage());
   }
 }
