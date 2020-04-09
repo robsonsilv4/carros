@@ -44,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         this.fUser = fUser;
 
         if (fUser != null) {
+          push(context, HomePage(), replace: true);
           showForm = true;
         } else {
           showForm = false;

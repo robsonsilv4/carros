@@ -25,15 +25,27 @@ class _CarrosPageState extends State<CarrosPage>
   @override
   bool get wantKeepAlive => true;
 
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     _bloc.fetch(tipo: tipo);
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        print('Fim');
+        _bloc.fetchMore(tipo);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    final List<Carro> list = [];
 
     return StreamBuilder(
       stream: _bloc.stream,
@@ -46,8 +58,16 @@ class _CarrosPageState extends State<CarrosPage>
 
         if (snapshot.hasData) {
           List<Carro> carros = snapshot.data;
+          list.addAll(carros);
+
+          bool showProgress = carros.length > 0 && carros.length % 10 == 0;
+
           return RefreshIndicator(
-            child: CarrosListView(carros: carros),
+            child: CarrosListView(
+              carros: list,
+              scrollController: _scrollController,
+              showProgress: showProgress,
+            ),
             onRefresh: _onRefresh,
           );
         }

@@ -8,16 +8,32 @@ import 'carro_page.dart';
 
 class CarrosListView extends StatelessWidget {
   final List<Carro> carros;
+  final ScrollController scrollController;
+  final bool showProgress;
 
-  CarrosListView({@required this.carros});
+  CarrosListView({
+    @required this.carros,
+    this.scrollController,
+    this.showProgress = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.0),
       child: ListView.builder(
-        itemCount: carros.length,
+        controller: scrollController,
+        itemCount: showProgress ? carros.length + 1 : carros.length,
         itemBuilder: (context, index) {
+          if (showProgress && carros.length == index) {
+            return Center(
+              child: Container(
+                height: 100.0,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
           Carro carro = carros[index];
 
           return InkWell(

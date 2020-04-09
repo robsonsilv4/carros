@@ -5,6 +5,8 @@ import 'carro_dao.dart';
 import 'simple_bloc.dart';
 
 class CarrosBloc extends SimpleBloc<List<Carro>> {
+  int _page = 0;
+
   Future<List<Carro>> fetch({String tipo}) async {
     try {
       bool networkOn = await isNetworkon();
@@ -15,7 +17,7 @@ class CarrosBloc extends SimpleBloc<List<Carro>> {
         return carros;
       }
 
-      List<Carro> carros = await CarroApi.getCarros(tipo);
+      List<Carro> carros = await CarroApi.getCarros(tipo, _page);
       if (carros.isNotEmpty) {
         final dao = CarroDAO();
         // carros.forEach(dao.save);
@@ -27,5 +29,10 @@ class CarrosBloc extends SimpleBloc<List<Carro>> {
       addError(error);
       throw exception;
     }
+  }
+
+  Future fetchMore(String tipo) {
+    _page++;
+    fetch(tipo: tipo);
   }
 }
